@@ -2,7 +2,7 @@ package com.example.navermaptest.network
 
 import com.example.navermaptest.common.Constants
 import com.example.navermaptest.model.DirectionsResponse
-import retrofit2.Call
+import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -14,6 +14,6 @@ interface NaverAPI {
     suspend fun getDirection5(
         @Query("start") start: String,
         @Query("goal") goal: String,
-    ): Call<DirectionsResponse>
+    ): ApiResponse<DirectionsResponse>
 
 }

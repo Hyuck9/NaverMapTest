@@ -17,8 +17,8 @@ data class DirectionsResponse(
 data class Route(
     val summary: Summary,           // 요약 정보
     val path: List<List<Double>>,   // 경로를 구성하는 모든 좌표열.해당 좌표들에는 0번부터 시작되는 index 가 있으며, 이 index 는 경로 정보를 표현하기 위한 pointIndex 라는 명칭으로 활용됩니다.
-    val section: Section?,          // 해당 경로를 구성하는 주요 도로에 관한 정보열(모든 경로를 포함하는 정보는 아닙니다.)
-    val guide: Guide?               // 안내 정보열
+    val section: List<Section>?,          // 해당 경로를 구성하는 주요 도로에 관한 정보열(모든 경로를 포함하는 정보는 아닙니다.)
+    val guide: List<Guide>?               // 안내 정보열
 ) {
     val coords
         get() = path.map { LatLng(it[1], it[0]) }
@@ -31,7 +31,7 @@ data class Summary(
     val waypoints: List<ResponsePositionFormat>?,   // 경유지. 경유하는 순서대로 array 에 기록
     val distance: Int,                              // 전체 경로 거리 (meters)
     val duration: Int,                              // 전체 경로 소요 시간 (milliseconds)
-    val bbox: List<ResponsePositionFormat>,         // 전체 경로 경계 영역. 두개의 point array 로 제공
+    val bbox: List<List<Double>>,                   // 전체 경로 경계 영역. 두개의 point array 로 제공
     val tollFare: Int,                              // 통행 요금 (톨게이트)
     val taxiFare: Int,                              // 택시 요금 (지자체별, 심야, 시경계, 복합, 콜비 감안)
     val fuelPrice: Int                              // 해당 시점의 전국 평균 유류비와 연비를 감안한 유류비
