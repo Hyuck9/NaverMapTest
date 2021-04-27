@@ -1,13 +1,10 @@
 package com.example.navermaptest.repository
 
 import androidx.annotation.WorkerThread
+import com.example.navermaptest.model.DirectionsResponse
 import com.example.navermaptest.network.NaverAPI
-import com.skydoves.sandwich.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import timber.log.Timber
 
 class NaverRepository constructor(
@@ -24,20 +21,14 @@ class NaverRepository constructor(
         goal: String,
         onStart: () -> Unit,
         onComplete: () -> Unit,
-        onError: (String?) -> Unit
-    )  = flow {
-
-        naverAPI.getDirection5(start, goal)
-            .suspendOnSuccess {
-                Timber.i("suspendOnSuccess")
-                data?.let {
-                    emit(it)
-                }
+    ): Flow<DirectionsResponse> {
+        return flow {
+            val direction5 = naverAPI.getDirection5(start, goal)
+            if ( direction5.code == 0 ) {
+                emit(naverAPI.getDirection5(start, goal))
             }
-            .suspendOnFailure { Timber.i("suspendOnFailure") }
-            .onError { onError(message()) }
-            .onException { onError(message) }
 
-    }.onStart { onStart() }.onCompletion { onComplete() }.flowOn(Dispatchers.IO)
+        }.onStart { onStart() }.onCompletion { onComplete() }.flowOn(Dispatchers.IO)
+    }
 
 }

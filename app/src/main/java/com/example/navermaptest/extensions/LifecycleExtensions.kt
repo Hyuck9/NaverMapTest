@@ -1,0 +1,10 @@
+package com.example.navermaptest.extensions
+
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+
+inline fun <T> LifecycleOwner.observeLiveData(data: LiveData<T>, crossinline onChanged: (T) -> Unit) {
+    data.observe(this, {
+        it?.let { value -> onChanged(value) }
+    })
+}
