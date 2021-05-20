@@ -1,6 +1,7 @@
 package com.example.navermaptest.extensions
 
 import android.view.View
+import com.naver.maps.geometry.LatLng
 
 
 fun View.visible() {
@@ -14,4 +15,8 @@ fun View.gone(shouldBeGone: Boolean) {
 
 fun View.onClick(action: (View) -> Unit) {
     setOnClickListener(action)
+}
+
+fun LatLng.getStringLonLat(): String {
+    return "$longitude,$latitude"
 }
